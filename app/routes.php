@@ -37,6 +37,16 @@ Route::group(array("before" => "guest"), function()
         "uses" => "UserController@loginAction"
     ));
 
+    Route::any('/settings', array(
+        "as" => "facility.settings",
+        "uses" => "UserController@configureFacilitySettings"
+    ));
+
+    Route::get('/connection', array(
+        "as" => "facility.connection",
+        "uses" => "UserController@testConnection"
+    ));
+
     Route::post('/api/fhir/emr_test_request', 'UnhlsTestController@emrTestRequest');
 
 });
@@ -974,4 +984,64 @@ Route::get('hackpassword', function() {
     echo 'Password changed successfully.';
 });*/
 
+// DATA WARE HOUSE API ENDPOINTS
+// Fetch ID of most recent record from tables
+Route::get('/latest_record_ids', 'ApiController@fetchAllTableIDs');
 
+// Receive IDs of most recent records from tables in warehouse
+Route::post('warehouse_ids', 'ApiController@warehouseIds');
+
+// Fetch latest 10 records from table
+Route::get('/tables/{table}', 'ApiController@fetchTableRecords');
+
+// Fetch Isolated organisms
+Route::get('/micro_organisms', 'ApiController@fetchIsolatedOrganisms');
+
+//Fetch unhls patients
+Route::get('/unhls_patients', 'ApiController@unhlsPatients');
+
+// Fetch UNHLS results
+Route::get('/unhls_results', 'ApiController@unhlsResults');
+
+//Fetch specimens
+Route::get('/specimens', 'ApiController@specimens');
+
+//Fetch Specimen rejections
+Route::get('/specimen_rejections', 'ApiController@specimenRejections');
+
+//Fetch UNHLS Districts
+Route::get('/district', 'ApiController@districts');
+
+//Fetch measure ranges
+Route::get('/measure_ranges', 'ApiController@measureRanges');
+
+//Fetch patient Visit details
+Route::get('patient_visit', 'ApiController@unhlsVisits');
+
+//Fetch UNHLS test data
+Route::get('specimen_test', 'ApiController@specimenTest');
+
+Route::get('/reject_reason', 'ApiController@rejectReason');
+
+Route::get('/all_visits', 'ApiController@getPatientVisits');
+
+Route::get('/facility_settings', 'ApiController@facilitySettings');
+
+Route::get('poc_results', 'ApiController@pocResults');
+
+Route::get('/poc_table', 'ApiController@pocTable');
+
+Route::get('/users', 'ApiController@users');
+
+Route::get('/referrals', 'ApiController@referrals');
+
+Route::get('clinician', 'ApiController@clinicians');
+
+Route::post('/recent_visits', 'ApiController@recentVisits');
+
+Route::get('/update', 'ApiController@updateunhlsVisits');
+
+Route::get('/getvisits/{visit_id}/{poc_id}/{clin_id}/{user_id}', 'ApiController@getChunkedVisits');
+
+
+Route::get('/getvisit', 'ApiController@getVisitDetails');
